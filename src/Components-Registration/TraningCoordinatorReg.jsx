@@ -55,7 +55,7 @@ const TraningCoordinatorReg = () => {
     if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
     if (!formData.officialEmail.trim()) {
       newErrors.officialEmail = 'Email is required';
-    } else if (regexOfMail.test(formData.officialEmail)) {
+    } else if (!regexOfMail.test(formData.officialEmail)) {
       newErrors.officialEmail = 'Invalid email address';
     }
     if (!formData.phoneNumber.trim()) {
