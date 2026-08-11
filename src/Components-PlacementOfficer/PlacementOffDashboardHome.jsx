@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import ProductLogo from '../assets/RegistrationAssets/Eduhire.png'
 import DashboardIC from '../assets/AdminAssets/Icon-Dashboard.png'
 import SettingsIC from '../assets/AdminAssets/SettingsAdmin.png'
@@ -25,6 +26,7 @@ import Maximize from '../assets/AdminAssets/Maximize.png'
 import PlacementOfficerDashboard from './PlacementOffDashboard'
 
 const PlacementOffDashboardHome = () => {
+    const navigate = useNavigate();
     const [activetab,setActivetab]=useState('Dashboard');
     const [view,setView]=useState("Maximize")
 
@@ -60,7 +62,13 @@ const PlacementOffDashboardHome = () => {
                 <div className='AdminDashboard-Sidebar-List' >
                     {sidebar.map((list,index)=>
                     <div key={index}
-                    onClick={()=>setActivetab(list.title)}
+                   onClick={() => {
+  setActivetab(list.title);
+
+  if (list.title === "Profile") {
+    navigate("/PRP_Portal/PlacementOfficer/Dashboard/profile");
+  }
+}}
                     className={activetab=== list.title ? 'AdminDashboard-Sidebar-Item-cont-Active' : 'AdminDashboard-Sidebar-Item-cont'}>
                     
                     <img src={activetab===list.title? list.Active : list.icon} alt="AdminDashboard" width={24} />

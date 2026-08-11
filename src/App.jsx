@@ -16,6 +16,7 @@ import StudentDashboardHome from "./Components-Student/StudentDashboardHome";
 import RecruiterDashboardHome from "./Components-Recruiter/RecruiterDashboardHome";
 import PlacementOffDashboardHome from "./Components-PlacementOfficer/PlacementOffDashboardHome";
 import AdminDashboardHome from "./Components-Admin/AdminDashboardHome";
+import PlacementOffProfile from "./Components-PlacementOfficer/PlacementOffProfile";
 
 
 const router = createBrowserRouter([
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
 {
   path: '/PRP_Portal/PlacementOfficer/Dashboard',
   element: <PlacementOffDashboardHome/>,
+},
+{
+  path: "/PRP_Portal/PlacementOfficer/Dashboard/profile",
+  element: <PlacementOffProfile />,
 },
 
 
