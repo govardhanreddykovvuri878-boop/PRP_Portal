@@ -9,7 +9,7 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  padding: 28px 40px 48px 38px;
+  padding: 20px 40px 48px 38px;
   min-width: 0;
   background-color: #f5f4fa;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial,
@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 .placementOffProfileSearchBar {
@@ -179,7 +179,7 @@
   background-color: #ffffff;
   border-radius: 12px;
   border: 1px solid rgba(141, 97, 215, 0.15);
-  padding: 28px;
+  padding: 20px;
   box-shadow: 0 2px 14px rgba(30, 20, 60, 0.05);
 }
 
@@ -196,14 +196,13 @@
 
 .placementOffProfileProfessionalCard {
   width: 300px;
-  height: auto;
-  min-height: 335px;
-  padding: 24px;
+  height: 335px;
+  padding: 18px;
 }
 
 .placementOffProfileProfessionalCard .placementOffProfileCardHeader {
   gap: 8px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
 .placementOffProfileProfessionalCard .placementOffProfileCardHeaderIcon {
@@ -218,29 +217,29 @@
 .placementOffProfileDocumentsCard {
   width: 300px;
   height: 183px;
-  padding: 20px 24px;
+  padding: 18px 20px;
 }
 
 .placementOffProfileDocumentsCard .placementOffProfileCardHeader {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .placementOffProfileCardHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 0 22px 0;
+  gap: 8px;
+  margin: 0 0 14px 0;
 }
 
 .placementOffProfileCardHeaderIcon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .placementOffProfileCardTitle {
-  font-size: 19px;
+  font-size: 16px;
   font-weight: 700;
   color: #1c1233;
   margin: 0;
@@ -249,8 +248,8 @@
 
 .placementOffProfileFieldGrid {
   display: grid;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 14px;
+  margin-bottom: 14px;
 }
 
 .placementOffProfileFieldGrid:last-child {
@@ -272,13 +271,17 @@
 .placementOffProfileFieldStack {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 10px;
 }
 
 .placementOffProfileField {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.placementOffProfileProfessionalCard .placementOffProfileField {
+  gap: 3px;
 }
 
 .placementOffProfileFieldLabel {
@@ -350,12 +353,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 226px;
-  height: 44px;
+  width: 206px;
+  height: 42px;
   flex-shrink: 0;
   border: none;
   border-radius: 12px;
-  padding: 0 16px;
+  padding: 0 14px;
   background: linear-gradient(90deg, #9c6fe4 0%, #6f2fd6 100%);
   color: #ffffff;
   font-size: 15px;
