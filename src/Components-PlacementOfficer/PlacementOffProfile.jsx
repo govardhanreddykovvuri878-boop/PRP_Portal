@@ -46,7 +46,7 @@ const initialFormData = {
   professionalAddress: "745 OMR road ,Chennai - 105215",
 };
 
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_REGEX = /^\+?[\d\s()-]{7,20}$/;
 const WEBSITE_REGEX = /^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
 const ALLOWED_DOCUMENT_TYPES = ["application/pdf", "image/jpeg", "image/png"];
@@ -112,6 +112,19 @@ const PlacementOffProfile = ({ currentUser }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Keeps formData (and profile picture state) in sync with DataProvider
+  // whenever currentUser changes, so saved edits survive navigation
+  // even if this component stays mounted instead of remounting.
+  useEffect(() => {
+    if (currentUser) {
+      setFormData({ ...initialFormData, ...currentUser });
+      setProfilePicture(
+        currentUser.profilePicture ? currentUser.profilePicture : ProfileImage
+      );
+      setIsProfilePictureDeleted(Boolean(currentUser.isProfilePictureDeleted));
+    }
+  }, [currentUser]);
 
   const handleToggleNotifications = () => {
     setIsNotificationsOpen((prev) => !prev);
@@ -348,7 +361,7 @@ const PlacementOffProfile = ({ currentUser }) => {
   return (
     <main className="placementOffProfileMain">
       <div className="placementOffProfileContent">
-       
+
         <header className="placementOffProfileHeader">
           <div className="placementOffProfileSearchBar">
             <img
@@ -1023,7 +1036,7 @@ const PlacementOffProfile = ({ currentUser }) => {
                     </>
                   ) : (
                     <span className="placementOffProfileFieldValue">
-                      {formData.institutionPhoneCountryCode} {formData.institutionPhone}
+                      {formData.institutionPhone}
                     </span>
                   )}
                 </div>

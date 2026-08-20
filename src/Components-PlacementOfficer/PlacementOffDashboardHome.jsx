@@ -26,9 +26,12 @@ import PlacementOfficerDashboard from './PlacementOffDashboard'
 import PlacementOffProfile from './PlacementOffProfile'
 import Modalbox from '../Resusable-Components/Modalbox'
 import { useNavigate } from 'react-router-dom'
+import { useData } from '../DataProvider'
 
 const PlacementOffDashboardHome = () => {
   const navigate = useNavigate();
+  const { user } = useData();
+  const currentPlacementOfficer = user.PlacementOfficer[0];
   const [activetab, setActivetab] = useState('Dashboard');
   const [view, setView] = useState("Maximize")
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -110,7 +113,7 @@ const PlacementOffDashboardHome = () => {
             <PlacementOfficerDashboard />
           )}
           {activetab === 'Profile' && (
-            <PlacementOffProfile />
+            <PlacementOffProfile currentUser={currentPlacementOfficer} />
           )}
         </div>
       </div>
