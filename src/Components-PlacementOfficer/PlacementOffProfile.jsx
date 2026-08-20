@@ -12,6 +12,7 @@ import InstituteDetailsIcon from "../assets/POAssets/InstituteDetails.png";
 import ProfessionalInformationIcon from "../assets/POAssets/ProfessionalInformation.png";
 import DocumentsIcon from "../assets/POAssets/Documents.png";
 import PdfIcon from "../assets/POAssets/PdfIcon.png";
+import { useData } from "../DataProvider";
 
 const COUNTRY_CODES = [
   { code: "+91", flag: "🇮🇳", label: "India" },
@@ -45,7 +46,7 @@ const initialFormData = {
   professionalAddress: "745 OMR road ,Chennai - 105215",
 };
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^\+?[\d\s()-]{7,20}$/;
 const WEBSITE_REGEX = /^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
 const ALLOWED_DOCUMENT_TYPES = ["application/pdf", "image/jpeg", "image/png"];
@@ -65,40 +66,22 @@ const initialMessages = [
   { id: 1, text: "HR Manager: Please confirm interview slots." },
 ];
 
-const PROFILE_STORAGE_KEY = "placementOfficerProfile";
-
-const loadStoredProfile = () => {
-  try {
-    const raw = localStorage.getItem(PROFILE_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-};
-
-const PlacementOffProfile = () => {
-  const storedProfile = loadStoredProfile();
+const PlacementOffProfile = ({ currentUser }) => {
+  const { setUser } = useData();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(() =>
-    storedProfile?.formData
-      ? { ...initialFormData, ...storedProfile.formData }
-      : initialFormData
-  );
-  const [savedFormData, setSavedFormData] = useState(() =>
-    storedProfile?.formData
-      ? { ...initialFormData, ...storedProfile.formData }
-      : initialFormData
-  );
+  const [formData, setFormData] = useState(() => ({
+    ...initialFormData,
+    ...currentUser,
+  }));
   const [errors, setErrors] = useState({});
   const [documents, setDocuments] = useState(initialDocuments);
   const [documentError, setDocumentError] = useState("");
   const [profilePicture, setProfilePicture] = useState(() =>
-    storedProfile?.profilePicture ? storedProfile.profilePicture : ProfileImage
+    currentUser?.profilePicture ? currentUser.profilePicture : ProfileImage
   );
   const [isProfilePictureDeleted, setIsProfilePictureDeleted] = useState(() =>
-    Boolean(storedProfile?.isProfilePictureDeleted)
+    Boolean(currentUser?.isProfilePictureDeleted)
   );
   const [previewPicture, setPreviewPicture] = useState(null);
   const [previewDeleted, setPreviewDeleted] = useState(false);
@@ -240,6 +223,7 @@ const PlacementOffProfile = () => {
   };
 
   const handleEditClick = () => {
+    setFormData({ ...initialFormData, ...currentUser });
     setIsEditing(true);
   };
 
@@ -255,7 +239,6 @@ const PlacementOffProfile = () => {
       ? true
       : isProfilePictureDeleted;
 
-    setSavedFormData(formData);
     setErrors({});
     if (previewPicture) {
       setProfilePicture(previewPicture);
@@ -266,22 +249,22 @@ const PlacementOffProfile = () => {
     setProfilePictureError("");
     setIsEditing(false);
 
-    try {
-      localStorage.setItem(
-        PROFILE_STORAGE_KEY,
-        JSON.stringify({
-          formData,
-          profilePicture: nextProfilePicture,
-          isProfilePictureDeleted: nextIsProfilePictureDeleted,
-        })
-      );
-    } catch {
-      
-    }
+    setUser((prevUser) => ({
+      ...prevUser,
+      PlacementOfficer: prevUser.PlacementOfficer.map((po) =>
+        po.id === currentUser.id
+          ? {
+              ...formData,
+              profilePicture: nextProfilePicture,
+              isProfilePictureDeleted: nextIsProfilePictureDeleted,
+            }
+          : po
+      ),
+    }));
   };
 
   const handleCancel = () => {
-    setFormData(savedFormData);
+    setFormData({ ...initialFormData, ...currentUser });
     setErrors({});
     setPreviewPicture(null);
     setPreviewDeleted(false);
@@ -533,10 +516,10 @@ const PlacementOffProfile = () => {
                 </div>
 
                 <h2 className="placementOffProfileProfileCardName">
-                  {savedFormData.name}
+                  {currentUser?.name || formData.name}
                 </h2>
                 <p className="placementOffProfileProfileCardRole">
-                  {savedFormData.designation}
+                  {currentUser?.designation || formData.designation}
                 </p>
               </div>
 
@@ -1040,7 +1023,7 @@ const PlacementOffProfile = () => {
                     </>
                   ) : (
                     <span className="placementOffProfileFieldValue">
-                      {formData.institutionPhone}
+                      {formData.institutionPhoneCountryCode} {formData.institutionPhone}
                     </span>
                   )}
                 </div>
